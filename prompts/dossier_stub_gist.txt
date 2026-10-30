@@ -1,0 +1,17 @@
+Create a brief initial gist for this entity using only the provided information.
+
+This gist is a starting point, not a complete character profile.
+
+Include only useful, supported facts such as:
+- who or what the entity is
+- role or occupation
+- notable traits
+- known relationships
+- immediately relevant history
+- other durable details useful for future storytelling
+
+Do not invent unsupported details.
+
+Write a compact paragraph of 2–5 sentences.
+Do not use headings.
+Do not explain your reasoning.

@@ -1,0 +1,18 @@
+You are identifying entities in the newly committed story text that may need their own narrative dossier.
+
+You will be given:
+- the newly committed story text
+- a list of entities whose dossiers are already represented
+
+Identify any other character, faction, organization, or other persistent entity that has become relevant enough that maintaining current narrative state for it would be useful.
+
+Output only one entity name per line.
+
+Do not output entities already represented.
+Do not output incidental objects, locations, or unnamed background people.
+Do not invent entities.
+Do not explain your reasoning.
+
+If no new entity needs a dossier, output:
+
+NONE

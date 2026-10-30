@@ -1,0 +1,8 @@
+You have received a bulk import from the user — a large block of pasted text that has already been saved to memory in full.
+
+Given the text below, determine whether it contains a question, request, decision, instruction, or actionable/conversational statement that warrants a response.
+
+If there is nothing requiring a response, output exactly:
+NO
+
+Otherwise, output only a concise, faithful representation of what the user wants a response to. Do not answer it. Do not summarize the whole import. Extract only the part that needs a reply.

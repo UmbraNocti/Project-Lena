@@ -1,0 +1,166 @@
+# ── Lena Settings ─────────────────────────────────────────────────────────────
+
+# ── LLM Backend Configuration ────────────────────────────────────────────────
+# Backends are specified as IP:port or URLs (e.g., "127.0.0.1:5001" or "localhost:8000")
+# All backends must speak OpenAI-compatible /v1/chat/completions format.
+#
+# For each tier, provide:
+#   <tier>_backend: IP:port address
+#   <tier>_api_key: API key (leave empty for local inference, fill for API endpoints)
+#   <tier>_model: Model identifier (leave empty for local, required for API)
+#
+# Blank API_KEY + blank MODEL = local inference (no auth, server uses loaded model)
+# Filled API_KEY = add Authorization header, required for cloud API endpoints
+# Filled MODEL = override default, used for cloud APIs or model switching
+#
+# Examples:
+#   Local only: default_backend = "127.0.0.1:8080", default_api_key = "", default_model = ""
+#   API only: default_backend = "api.anthropic.com:443", default_api_key = "sk-...", default_model = "claude-opus-5"
+#   Hybrid (local + API): small_backend = "127.0.0.1:8000" (local), large_backend = "api.anthropic.com:443" (API)
+#   Three-tier: small_backend = local, default_backend = local, large_backend = API
+#
+default_backend = 127.0.0.1:8080
+default_api_key = 
+default_model = 
+
+small_backend =
+small_api_key = 
+small_model = 
+
+large_backend =
+large_api_key = 
+large_model = 
+
+# ── Vision (multimodal) ──────────────────────────────────────────────────────
+# Flag which of the three routes above can see images. When the final chat
+# call carries an image (an upload, or a salient image recalled from memory),
+# it goes to the call's normal route if that route is flagged, otherwise the
+# first flagged route (large, default, small). The specialist route below is
+# a fourth slot used ONLY when none of the three is flagged — it is never part
+# of size-based routing or text fallback. If nothing can see, images are
+# skipped and Lena works blind (text memories only).
+default_vision = true
+small_vision = false
+large_vision = false
+
+specialist_backend =
+specialist_api_key =
+specialist_model =
+
+# When the specialist is an outside API, recalled (old) images leave this
+# machine to be reasoned over. Set false to send only images uploaded this turn.
+specialist_send_recalled = true
+
+# Max images attached to one call (uploaded + recalled combined).
+vision_max_images = 2
+# Images are downscaled so the longest side is at most this many pixels
+# (requires Pillow; without it images are sent as-is).
+vision_max_px = 1024
+
+# ── Routing thresholds (measured in bytes, UTF-8 encoded) ───────────────────
+# Rough token conversion: 1 token ≈ 4 bytes
+#
+# Examples:
+#   5,000 bytes   ≈ 1,250 tokens   (lightweight: keyword extraction, gates)
+#   50,000 bytes  ≈ 12,500 tokens  (heavyweight: full chat with memories)
+#
+# Payload routing logic:
+#   If payload < small_threshold → send to small_backend (if enabled)
+#   If payload > large_threshold → send to large_backend (if enabled)
+#   Otherwise → send to default_backend
+#
+small_threshold = 5000
+large_threshold = 40000
+
+# ── Flask UI port ────────────────────────────────────────────────────────────
+flask_port = 5000
+
+# ── Listening mode ──────────────────────────────────────────────────────────
+# Character count that triggers listening mode on a large paste/dump.
+listening_mode_char_threshold = 2000
+
+# ── Director mode ───────────────────────────────────────────────────────────
+# Paragraphs of the story shown in the Director panel and used to grade pacing.
+director_tail_paragraphs = 6
+# Rolling context for writing: about this many characters of the newest story text (whole paragraphs) go into
+# every Director draft and revision, next to 10,000 characters of recalled memory. Recall never repeats them.
+director_tail_chars = 10000
+
+# ── Automatic dream cycle ────────────────────────────────────────────────────
+# Dream cycles now fire on their own — no button. A background timer resets
+# on every real chat send; if it ever runs out uninterrupted (nobody typing),
+# dream.py is asked whether a pass is actually warranted, gated on both of
+# the settings below. A manual override still exists (type "!dream" in the
+# chat box) but is not shown anywhere in the UI.
+
+# Seconds of no chat activity before a dream cycle is even considered. 0 or less turns automatic dreaming off
+# (for example during a big import, or on a paid API where you want to choose when it runs); "!dream" still runs one.
+idle_dream_check_seconds = 1800
+
+# Minimum seconds since the last dream pass, regardless of idle time.
+dream_min_interval_seconds = 7200
+
+# Minimum new factual (non-derived) memories written since the last pass.
+dream_min_new_memories = 20
+
+# Seconds the dream rests before each of its model calls, to let a hot or shared GPU breathe. 0 = no rest.
+dream_pause_seconds = 0
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+# Two plain-text files next to controller.py: LOG.txt, every exchange in and out, and CONSOLE.txt, everything Lena
+# prints to the terminal (startup, the dream, bridges, errors), so a run without a console window still leaves a
+# trail. They are for debugging and for reading back; Lena's memory does not use them. Set log_files to false to
+# write neither (existing files are left alone: delete them yourself if you want them gone). Applies after !reload.
+log_files = true
+
+# ── Coprocessing ─────────────────────────────────────────────────────────────
+# Default (true) locks the chat box while a dream cycle or bridge is active. Set to false to allow typing during either — bridges and dream cycles are always allowed to run concurrently with each other regardless of this setting; this only controls whether the user is also locked out.
+lock_ui_during_processing = true
+
+# ── Recall ───────────────────────────────────────────────────────────────────
+# Recall is deterministic and makes no LLM call. For each message it gathers the speaker's person gist and
+# dossier, the top vector hits over all memories (when an embedding backend is set), and the memories
+# sharing the message's handles (content words, stop words dropped, stemmed), scored by rarity and by
+# recency measured from the temporal anchor. See docs/RECALL.md.
+
+# Embedding route for the vector hits: an OpenAI-compatible /v1/embeddings endpoint (for example llama-server
+# started with --embeddings and an embedding model such as nomic-embed-text-v1.5). Leave embedding_backend
+# empty to recall on handles alone. nomic-embed wants prefixes: doc "search_document:", query "search_query:".
+# Changing the model or the prefixes clears the stored embeddings at the next start; the dream cycle rebuilds them.
+embedding_backend =
+embedding_api_key =
+embedding_model =
+embedding_doc_prefix =
+embedding_query_prefix =
+embedding_batch_size = 16
+
+# Vector hits kept per message (Director mode uses twice the budget and spreads its hits over the story),
+# the weight of handles mined from those hits, and the weight of handles from the person gist (and, in
+# Director mode, the gists of the characters in play), all relative to the message's own handles.
+recall_vector_hits = 2
+recall_mined_weight = 0.2
+recall_identity_weight = 0.4
+
+# Person gist and dossier upkeep in the dream cycle (Pass 7). Only conversation partners get them: someone
+# Lena has answered at least persona_min_replies times and for at least persona_min_reply_ratio of what they
+# sent (feeds and passing commenters never qualify). Then: minimum new statements before a person is
+# updated, statements folded in per update, and the most updates per person per cycle.
+persona_min_replies = 10
+persona_min_reply_ratio = 0.75
+persona_min_new_memories = 15
+persona_block_size = 25
+persona_max_blocks_per_cycle = 6
+
+# ── External bridges ─────────────────────────────────────────────────────────
+# Maps a "!<platform>" typed command (in the chat box) to the script that
+# implements it. Each bridge owns its own credentials/config in its own
+# settings file (e.g. reddit_bridge.py reads reddit_settings.txt) — this
+# only tells controller which script to load for a given platform name.
+# Uncomment and point at a real script to enable. Format:
+#   bridge_<platform> = <script filename>
+
+# bridge_reddit = reddit_bridge.py
+# bridge_discord = discord_bridge.py
+bridge_email = email_bridge.py
+bridge_file = file_bridge.py
+# bridge_rss = rss_bridge.py

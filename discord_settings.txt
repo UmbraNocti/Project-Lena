@@ -1,0 +1,29 @@
+# ── Discord bridge settings ──────────────────────────────────────────────────
+# Used only by discord_bridge.py — controller.py never reads this file.
+# controller.py just knows discord_bridge.py exists (via settings.txt's
+# bridge_discord = discord_bridge.py) and calls its run() function.
+# To enable it, remove the # from the bridge_discord line in settings.txt.
+#
+# Bot-account only. No extra packages needed beyond `requests`.
+
+# Bot token from the Discord Developer Portal (your application -> Bot).
+# The bot must be invited to the server and allowed to read and send
+# messages in the channel below.
+bot_token     =
+
+# The channel to watch — enable Developer Mode in Discord, then right-click
+# the channel and choose "Copy Channel ID".
+channel_id    =
+
+# How often to check the channel for new messages, in seconds.
+poll_interval = 15
+
+# Optional reply delay window, in seconds. Discord bots are expected to be
+# bots, so this defaults to off (0/0 = reply as soon as it's generated).
+# Set both to a nonzero range if you want replies to feel less instant.
+jitter_min = 0
+jitter_max = 0
+
+# Skip messages from other bot accounts (and this bot's own messages).
+# Cheapest possible loop protection: bot-to-bot ping-pong never starts.
+ignore_bots = true

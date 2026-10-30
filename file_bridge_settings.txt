@@ -1,0 +1,6 @@
+# file_bridge.py settings. Drop a file into a watched folder; the bridge reads it, hands it to Lena, and moves
+# it into that folder's _processed subfolder. Start it from the chat box with  !file listen  (read and
+# remember, never reply), with the Canon box set if the file belongs to a canon.
+directories = lena_inbox
+extensions = .txt
+poll_interval = 15

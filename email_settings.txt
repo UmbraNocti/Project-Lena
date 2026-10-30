@@ -1,0 +1,55 @@
+# ── Email bridge settings ────────────────────────────────────────────────────
+# Used only by email_bridge.py — controller.py never reads this file.
+# controller.py just knows email_bridge.py exists (via settings.txt's
+# bridge_email = email_bridge.py) and calls its run() function.
+
+# Minimum required — everything else below is optional. For Gmail, Yahoo,
+# Outlook/Hotmail/Live, and iCloud, the correct IMAP/SMTP host and port are
+# auto-detected from the domain. Use an app password, not your normal
+# login password, if the provider supports/requires one (Gmail does).
+email    =
+password =
+
+# ── Optional server overrides ────────────────────────────────────────────────
+# Leave all of these blank unless the address above is on a custom or
+# self-hosted mail server that isn't in the built-in provider list.
+imap_host =
+imap_port =
+smtp_host =
+smtp_port =
+use_ssl   =    # true/false — leave blank to use the provider default
+
+# How often to check for new mail, in seconds.
+poll_interval = 60
+
+# Optional reply delay window, in seconds. Email doesn't have Reddit's
+# bot-detection concerns, so this defaults to off (0/0 = reply as soon as
+# it's generated). Set both to a nonzero range if you want replies to
+# feel less instant.
+jitter_min = 0
+jitter_max = 0
+
+# Appended to every message SHE sends — this is the disclosure line, and
+# only ever gets added by this script. If you reply to something manually
+# through the account's normal webmail or app instead, this never gets
+# added, since that path never touches this file. Use \n for a line break.
+signature = Kind regards,\nLena herself - not a human contributor.
+
+# Loop protection: if she'd reply to the same sender more than this many
+# times within one hour, she stops replying to that sender and waits for
+# manual review. This is NOT the same as the provider's own sending caps
+# (e.g. Gmail's daily volume limit) — those don't catch a fast same-sender
+# loop, so this is the actual circuit breaker. To clear a lockout, open
+# email_lockouts.json and delete or clear that sender's entry.
+max_replies_per_sender_per_hour = 4
+
+# Trims each message down to just the new content above the quoted
+# history, using the reply-marker conventions Gmail, Outlook, Apple Mail,
+# and Thunderbird all produce ("On ... wrote:", ">" quoting,
+# "-----Original Message-----", etc.). Without this, every reply in a
+# thread reseeds the entire chain underneath it, and DreamCycle ends up
+# chewing on N copies of the same earlier content by the Nth reply. This
+# is a heuristic, not a guarantee — set to false if it ever seems to be
+# cutting off real content instead of just quoted history.
+strip_quoted_replies = true
+

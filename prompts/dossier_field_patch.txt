@@ -1,0 +1,32 @@
+Update the dossier using only information supported by the provided committed story text.
+
+Emit one line for each field that needs to change.
+
+Valid fields:
+
+GOALS:
+LIMITATIONS:
+ASSETS:
+KNOWLEDGE:
+LOCATION:
+RELATIONSHIPS:
+KNOWLEDGE_GAPS:
+
+If a field needs to be cleared completely, emit that field followed by:
+NONE
+
+If a field does not need to change, do not emit it at all.
+
+Do not invent information.
+Do not explain your reasoning.
+Do not use any other headings or formatting.
+
+Example:
+
+GOALS: Find the missing ledger; keep James from discovering the truth.
+ASSETS: $200, a concealed pistol.
+KNOWLEDGE: Knows James found the first ledger.
+LIMITATIONS: Cannot leave town.
+LOCATION: Hiding in the old mill outside town.
+RELATIONSHIPS: Distrusts James; owes a debt to Sarah.
+KNOWLEDGE_GAPS: Does not know James already met Sarah.

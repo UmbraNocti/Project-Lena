@@ -1,0 +1,73 @@
+# Lena
+
+### A local AI that remembers. The LLM is her voice; the memory is Lena.
+
+> **Status: Alpha.** It works, I use it daily, and I can't test every situation. If something breaks, tell me.
+
+Lena is a companion, assistant and co-author that runs on your own hardware and remembers everything you've ever told her: your life, your projects, and every story you've written together. No lorebooks to maintain, no conversations to sort into folders, no "please remind me who that is." You talk; she remembers and connects it.
+
+She does it without a giant model or a giant context window. A deterministic controller decides what Lena recalls, using a plain SQLite database of linked memories. The LLM never decides what to remember; it only writes the words. Between sessions she "dreams": she folds what happened into short portraits of the people, places and ideas that keep coming up.
+
+## Why you'd want it
+
+* **She actually remembers.** Swap models whenever you like. The memory is a database, not a context window.
+* **Story memory without story cards.** Import a 450,000-word story and she knows it nearly as well as its author, small details included.
+* **Small models punch above their weight.** Her recall does the heavy lifting, so a 4B-class model gets answers it couldn't get on its own.
+* **Runs on modest, old hardware.** Built on an i5-3570K with DDR3, a Tesla P100 and a GTX 1070.
+* **Any OpenAI-compatible backend.** llama.cpp, KoboldCPP, Ollama, LM Studio, or a hosted API.
+* **Auditable.** One SQLite file. Recall makes no model calls and gives the same answer every time.
+
+## The numbers
+
+95 questions about two long, messy roleplay stories (512,000 words, longer than *The Lord of the Rings*), the same local models for every system:
+
+| | Gemma 4 26B | Gemma 4 E4B (small) |
+|---|---:|---:|
+| **Lena** | **87.5** | **79.5** |
+| Lena with no embedding model at all | 85 | 78 |
+| A standard RAG setup | 75 | 66.5 |
+| Story cards / lorebook | 45.5 | 38.5 |
+
+* With the small model, she beats RAG running on the big one.
+* She's usable the minute a story is imported (on par with RAG), and passes RAG within the first hour of dreaming.
+* Recall takes about a quarter of a second, with zero LLM calls.
+
+How the test was set up, and what each system got: **[docs/BENCHMARK.md](docs/BENCHMARK.md)**.
+
+## Quick start
+
+**You need:** Python 3, and a model server that speaks the OpenAI `/v1/chat/completions` API.
+
+```bash
+git clone https://github.com/UmbraNocti/Project-Lena.git
+cd Project-Lena
+pip install -r requirements.txt
+```
+
+**New to local models?** The **[Starter Kit](docs/starter_kit/README.md)** walks you through what to download and where to put it, with one-click start scripts for a 16 GB graphics card or a smaller gaming PC (Windows, Linux, macOS). Do that first, then come back here.
+
+Point `settings.txt` at your model server:
+
+```ini
+default_backend = 127.0.0.1:8080
+```
+
+Start your model server, then Lena:
+
+```bash
+python controller.py
+```
+
+Open `http://localhost:5000` and say hello. She starts with an empty memory and learns from you.
+
+**Strongly recommended:** a small embedding model next to your LLM (nomic-embed-text-v1.5, about 150 MB, runs on a CPU). Two lines in `settings.txt`, covered in **[SETUP.md](docs/SETUP.md)**.
+
+## Learn more
+
+* **[SETUP.md](docs/SETUP.md):** models, embeddings, vision, settings, bridges (email, files, RSS, Reddit, Discord) and commands.
+* **[FAQ.md](docs/FAQ.md):** the hard questions. "Isn't this just RAG?" "Why not a bigger model?" "Did AI write this?"
+* **[RECALL.md](docs/RECALL.md):** exactly how a memory gets found. **[CODEMAP.md](docs/CODEMAP.md):** where everything lives in the code.
+
+## License
+
+Copyright (C) 2026 James (UmbraNocti). **GNU Affero General Public License v3.0 or later**; see [`LICENSE`](LICENSE). Contact: ProjectLenaAI@gmail.com

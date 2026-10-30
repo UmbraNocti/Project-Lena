@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+
+# Runtime logs
+LOG.txt
+CONSOLE.txt
+CONSOLE.old.txt
+OLDLOGS/
+
+# The memory database. Lena creates an empty one on first start.
+# (Remove this line when a seed MEM.db is shipped.)
+MEM.db
+MEM.db-wal
+MEM.db-shm
+MEM.db-journal
+
+# Images uploaded at runtime (when a seed MEM.db ships, whitelist the images it references: !images/<name>)
+images/*
+
+# User-written stories (the folder itself is kept by stories/.gitkeep)
+stories/*.txt
+
+# File bridge inbox folders and their processed archives
+lena_inbox/
+lena_inbox_2/
+
+# Bridge runtime state
+email_seen.json
+email_lockouts.json
+rss_seen.json
+
+# Desktop / editor
+.aider*
+.directory
+.vscode/
+.idea/
+
+# Starter kit: downloaded models and llama.cpp builds go here, never into git
+docs/starter_kit/models/*
+!docs/starter_kit/models/PUT_MODELS_HERE.txt
+docs/starter_kit/llama.cpp/*
+!docs/starter_kit/llama.cpp/PUT_LLAMA_CPP_HERE.txt

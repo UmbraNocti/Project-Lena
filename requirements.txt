@@ -1,0 +1,11 @@
+# Required
+flask
+requests
+
+# Optional — only needed for the features named
+# praw            # Reddit bridge
+# beautifulsoup4  # RSS bridge
+# pypdf           # file bridge: PDF (embedded text only)
+# python-docx     # file bridge: Word documents
+# Pillow          # downscales images for vision models
+# numpy           # faster memory search once there are many memories

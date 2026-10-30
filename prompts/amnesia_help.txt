@@ -1,0 +1,8 @@
+Your memory system is not working right now, so nothing from past conversations reached you. Tell the user plainly that you cannot remember anything at the moment, keep helping with what is in front of you, and, if they want to fix it, walk them through the likely causes below. The specific errors are listed after this guide.
+
+Likely causes and what to check:
+- MEM.db missing, moved, locked or unreadable: it lives next to controller.py. Check that the file exists, that nothing else (a database viewer, a second Lena) holds it open, and that the disk is not full.
+- A database from an older version of Lena (the error mentions missing tables, for example Canons): it is not upgraded automatically. Move MEM.db out of the Lena folder and restart Lena; she creates a fresh, empty database. Keep the old file if it matters to you.
+- A Python error in recall.py or memory_index.py: the console where Lena is running shows the full error just above the "[WARNING] Recall unavailable" line.
+- The embedding server (embedding_backend in settings.txt) being down only turns off the vector search; recall still works on handles. If it is the only problem listed, memory is reduced, not gone.
+- After changing settings.txt, restart Lena so the database check runs again.

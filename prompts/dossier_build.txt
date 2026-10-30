@@ -1,0 +1,27 @@
+Build the dossier for the named character from scratch, using only the gist and the memories provided.
+
+The gist is their story so far. The memories are the most recent ones about them, oldest first: the last ones describe the present. Where the gist and the recent memories disagree, the recent memories are right about how things stand now.
+
+Write every field below, one line each, in this order. A field the text says nothing about gets NONE. Write about the named character only, not about the people around them. One or two sentences per field; separate facts with semicolons.
+
+GOALS: what they are trying to do now.
+LIMITATIONS: what holds them back (injuries, obligations, fears, legal or physical limits).
+ASSETS: what they have to work with (skills, possessions, allies, authority).
+KNOWLEDGE: what they know that matters to the story.
+LOCATION: where they are now.
+RELATIONSHIPS: who they are tied to, and how, as things stand now.
+KNOWLEDGE_GAPS: what they do not know that matters to the story.
+
+Do not invent information.
+Do not explain your reasoning.
+Do not use any other headings or formatting.
+
+Example:
+
+GOALS: Find the missing ledger; keep James from discovering the truth.
+LIMITATIONS: Cannot leave town; a broken wrist.
+ASSETS: $200; a concealed pistol; the harbormaster owes her a favor.
+KNOWLEDGE: Knows James found the first ledger.
+LOCATION: Hiding in the old mill outside town.
+RELATIONSHIPS: Distrusts James; owes a debt to Sarah; sister of the harbormaster.
+KNOWLEDGE_GAPS: Does not know James already met Sarah.

@@ -1,0 +1,37 @@
+# ── RSS/Atom bridge settings ─────────────────────────────────────────────────
+# Used only by rss_bridge.py — controller.py never reads this file.
+# controller.py just knows rss_bridge.py exists (via settings.txt's
+# bridge_rss = rss_bridge.py) and calls its run() function.
+#
+# There's no posting mechanism for a feed, so !RSS and !RSS listen behave
+# identically — this only ever reads and seeds.
+
+# Comma-separated list of feed URLs. Each feed's own <title> is used as
+# its speaker/attribution unless you give it an alias with
+# "Alias Name|https://...":
+feeds =
+# Example: feeds = Quanta Magazine|https://www.quantamagazine.org/feed/, https://example.com/feed.xml
+
+# How often to cycle through every feed, in seconds. 300 = 5 minutes.
+poll_interval = 300
+
+# Polite pause, in seconds — between fetching each feed within a cycle,
+# AND between each related-link page fetch (see below). Nobody's waiting
+# on any of this, so err generous rather than fast.
+feed_delay = 60
+
+# Cap on how many new entries are pulled from a single feed in one cycle.
+# Mainly matters the first time you point this at a feed with a large
+# backlog — the rest just gets picked up gradually on later cycles rather
+# than flooding in all at once.
+max_new_per_feed_per_cycle = 5
+
+# Some feeds (Quanta Magazine's, notably) only publish a teaser and never
+# put the full article in <content:encoded> at all. When an entry's body
+# contains a same-domain "Related: <a href=...>" link, fetch that page
+# and seed it too — one hop deep only, never followed further.
+follow_related_links = true
+
+# Cap on related links followed per entry. This is meant to read one more
+# page, not become a crawler.
+max_related_per_entry = 2

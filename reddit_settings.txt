@@ -1,0 +1,24 @@
+# ── Reddit bridge settings ───────────────────────────────────────────────────
+# Used only by reddit_bridge.py — controller.py never reads this file.
+# controller.py just knows reddit_bridge.py exists (via settings.txt's
+# bridge_reddit = reddit_bridge.py) and calls its run() function.
+
+# Reddit "script" app credentials — create at https://www.reddit.com/prefs/apps
+client_id     =
+client_secret =
+username      =
+password      =
+user_agent    = Lena/1.0 by YOUR_REDDIT_USERNAME
+
+# Thread to watch — the ID from the URL, e.g. for
+# reddit.com/r/LocalLLM/comments/abc123/my_post/ this is "abc123".
+submission_id =
+
+# How often to re-poll the thread's comment tree, in seconds.
+poll_interval = 30
+
+# Random reply delay window, in seconds — waited out after the reply gate
+# says yes and a response is generated, before actually posting. Keeps
+# replies from landing suspiciously fast. 180-600 = 3 to 10 minutes.
+jitter_min = 180
+jitter_max = 600
