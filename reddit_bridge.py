@@ -34,7 +34,7 @@ already seen.
 Settings live in reddit_settings.txt (sibling file, NOT controller's
 settings.txt) — see that file for what to fill in.
 
-Requires PRAW:  pip install praw --break-system-packages
+Requires PRAW:  pip install praw
 """
 
 import json

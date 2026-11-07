@@ -1,11 +1,15 @@
+# Upper bounds are deliberate: they are the majors Lena is known to work with,
+# so a new major release of something here can't quietly break a fresh install.
+# If you want to try a newer major, raise the bound and run the bridge it feeds.
+
 # Required
-flask
-requests
+flask>=3,<4
+requests>=2.26,<3
 
 # Optional — only needed for the features named
-# praw            # Reddit bridge
-# beautifulsoup4  # RSS bridge
-# pypdf           # file bridge: PDF (embedded text only)
-# python-docx     # file bridge: Word documents
-# Pillow          # downscales images for vision models
-# numpy           # faster memory search once there are many memories
+# praw>=7,<9              # Reddit bridge
+# beautifulsoup4>=4.9,<5  # RSS bridge
+# pypdf>=4,<8             # file bridge: PDF (embedded text only)
+# python-docx>=1,<2       # file bridge: Word documents
+# Pillow>=9,<13           # downscales images for vision models
+# numpy>=1.21,<3          # faster memory search once there are many memories

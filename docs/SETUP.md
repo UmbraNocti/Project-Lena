@@ -118,6 +118,6 @@ If you'd rather keep no logs, set `log_files = false` in `settings.txt` and `!re
 
 | | |
 |---|---|
-| **Required** | Python 3, `flask`, `requests`, an OpenAI-compatible LLM backend |
+| **Required** | Python 3.10+, `flask`, `requests`, an OpenAI-compatible LLM backend |
 | **Optional** | an embedding server, `numpy` (faster vector search), `praw`, `beautifulsoup4`, `pypdf`, `python-docx`, `Pillow` |
 | **Tested on** | Linux |

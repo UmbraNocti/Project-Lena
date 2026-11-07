@@ -45,7 +45,7 @@ noise (video embeds, WordPress photo captions, "Related:" boilerplate,
 nav/header/footer on a scraped page) be removed by tag/class rather than
 pattern-matched text.
 
-    pip install beautifulsoup4 --break-system-packages
+    pip install beautifulsoup4
 
 Each entry is deduped by its own guid/id (falling back to its link, then
 to a title+date combination) and persisted per-feed to rss_seen.json, so

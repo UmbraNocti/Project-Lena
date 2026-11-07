@@ -2,6 +2,10 @@
 __pycache__/
 *.pyc
 
+# Virtual environment (the Quick start tells you to make one here)
+.venv/
+venv/
+
 # Runtime logs
 LOG.txt
 CONSOLE.txt

@@ -43,7 +43,7 @@ PDF and .docx support are optional dependencies (pypdf, python-docx) —
 if either isn't installed, files of that type are skipped with a console
 warning rather than crashing the bridge.
 
-    pip install pypdf python-docx --break-system-packages
+    pip install pypdf python-docx
 
 Speaker is the filename itself (without extension) — see
 _speaker_from_filename for why.
@@ -112,7 +112,7 @@ def _extract_pdf_text(path):
         from pypdf import PdfReader
     except ImportError:
         print(f"[FILE] pypdf not installed — skipping {path.name}. "
-              f"Install with: pip install pypdf --break-system-packages")
+              f"Install with: pip install pypdf")
         return None
     try:
         reader = PdfReader(str(path))
@@ -138,7 +138,7 @@ def _extract_docx_text(path):
         import docx
     except ImportError:
         print(f"[FILE] python-docx not installed — skipping {path.name}. "
-              f"Install with: pip install python-docx --break-system-packages")
+              f"Install with: pip install python-docx")
         return None
     try:
         document = docx.Document(str(path))

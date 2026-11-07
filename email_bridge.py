@@ -45,7 +45,7 @@ import random
 import re
 import smtplib
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from email.header import decode_header
 from email.message import EmailMessage
 from email.utils import parseaddr, make_msgid
@@ -175,8 +175,16 @@ def _save_lockout_log(log):
         print(f"[EMAIL] Could not save lockout log: {e}")
 
 
+def _utcnow():
+    # datetime.utcnow() is deprecated and scheduled for removal. This is its
+    # exact equivalent: UTC, but naive, so it still compares against — and
+    # writes — the plain timestamps already in email_lockouts.json. Going
+    # timezone-aware here would raise TypeError on an existing lockout file.
+    return datetime.now(timezone.utc).replace(tzinfo=None)
+
+
 def _sender_locked_out(sender_addr, log, max_per_hour):
-    cutoff = datetime.utcnow() - timedelta(hours=1)
+    cutoff = _utcnow() - timedelta(hours=1)
     timestamps = [datetime.fromisoformat(t) for t in log.get(sender_addr, [])]
     recent = [t for t in timestamps if t > cutoff]
     log[sender_addr] = [t.isoformat() for t in recent]
@@ -184,7 +192,7 @@ def _sender_locked_out(sender_addr, log, max_per_hour):
 
 
 def _record_reply(sender_addr, log):
-    log.setdefault(sender_addr, []).append(datetime.utcnow().isoformat())
+    log.setdefault(sender_addr, []).append(_utcnow().isoformat())
 
 
 # ── Body extraction ───────────────────────────────────────────────────────────

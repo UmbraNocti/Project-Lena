@@ -36,13 +36,28 @@ How the test was set up, and what each system got: **[docs/BENCHMARK.md](docs/BE
 
 ## Quick start
 
-**You need:** Python 3, and a model server that speaks the OpenAI `/v1/chat/completions` API.
+**You need:** Python 3.10 or newer, and a model server that speaks the OpenAI `/v1/chat/completions` API.
 
 ```bash
 git clone https://github.com/UmbraNocti/Project-Lena.git
 cd Project-Lena
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
+
+On Windows the activate line is `.venv\Scripts\activate` instead.
+
+That `.venv` folder keeps Lena's dependencies inside the project, which matters for
+two reasons: nothing here touches the rest of your machine, and a system Python
+upgrade can't take her dependencies away. Activate it in any terminal you start
+her from — if `python controller.py` ever dies on `ModuleNotFoundError: flask`,
+you almost certainly forgot.
+
+Installing without a virtual environment also works, but most current Linux
+distributions will stop you with `error: externally-managed-environment`. Then
+it's `pip install --user --break-system-packages -r requirements.txt`, and a
+future system Python upgrade will put you back here.
 
 **New to local models?** The **[Starter Kit](docs/starter_kit/README.md)** walks you through what to download and where to put it, with one-click start scripts for a 16 GB graphics card or a smaller gaming PC (Windows, Linux, macOS). Do that first, then come back here.
 
